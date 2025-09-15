@@ -1,17 +1,29 @@
-%h2 Log in
-= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-  .field
-    = f.label :email
-    %br/
-    = f.email_field :email, autofocus: true, autocomplete: "email"
-  .field
-    = f.label :password
-    %br/
-    = f.password_field :password, autocomplete: "current-password"
-  - if devise_mapping.rememberable?
-    .field
-      = f.check_box :remember_me
-      = f.label :remember_me
-  .actions
-    = f.submit "Log in"
-= render "devise/shared/links"
+.card.bg-base-100.shadow-xl.max-w-md.mx-auto.mt-10
+  .card-body
+    %h2.text-2xl.font-bold.mb-4 Вход
+
+    = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+      .form-control.mb-4
+        = f.label :email, "Email", class: "label"
+        = f.email_field :email,
+                        autofocus: true,
+                        autocomplete: "email",
+                        class: "input input-bordered w-full"
+
+      .form-control.mb-4
+        = f.label :password, "Пароль", class: "label"
+        = f.password_field :password,
+                           autocomplete: "current-password",
+                           class: "input input-bordered w-full"
+
+      - if devise_mapping.rememberable?
+        .form-control.mb-4.flex.items-center.gap-2
+          = f.check_box :remember_me, class: "checkbox checkbox-primary"
+          = f.label :remember_me, "Запомнить меня"
+
+      .form-control
+        = f.submit "Войти", class: "btn btn-primary w-full"
+
+    .divider.mt-6.mb-2 или
+
+    = render "devise/shared/links"

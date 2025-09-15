@@ -1,21 +1,35 @@
-%h2 Sign up
-= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-  = render "devise/shared/error_messages", resource: resource
-  .field
-    = f.label :email
-    %br/
-    = f.email_field :email, autofocus: true, autocomplete: "email"
-  .field
-    = f.label :password
-    - if @minimum_password_length
-      %em
-        (#{@minimum_password_length} characters minimum)
-    %br/
-    = f.password_field :password, autocomplete: "new-password"
-  .field
-    = f.label :password_confirmation
-    %br/
-    = f.password_field :password_confirmation, autocomplete: "new-password"
-  .actions
-    = f.submit "Sign up"
-= render "devise/shared/links"
+.card.bg-base-100.shadow-xl.max-w-md.mx-auto.mt-10
+  .card-body
+    %h2.text-2xl.font-bold.mb-4= t('devise.registrations.new.title')
+
+    = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+      = render "devise/shared/error_messages", resource: resource
+
+      .form-control.mb-4
+        = f.label :email, t('devise.registrations.new.email'), class: "label"
+        = f.email_field :email,
+                        autofocus: true,
+                        autocomplete: "email",
+                        class: "input input-bordered w-full"
+
+      .form-control.mb-4
+        = f.label :password, t('devise.registrations.new.password'), class: "label"
+        - if @minimum_password_length
+          %span.text-sm.text-base-content
+            = t('devise.registrations.new.password_length', count: @minimum_password_length)
+        = f.password_field :password,
+                           autocomplete: "new-password",
+                           class: "input input-bordered w-full"
+
+      .form-control.mb-4
+        = f.label :password_confirmation, t('devise.registrations.new.password_confirmation'), class: "label"
+        = f.password_field :password_confirmation,
+                           autocomplete: "new-password",
+                           class: "input input-bordered w-full"
+
+      .form-control
+        = f.submit t('devise.registrations.new.sign_up'), class: "btn btn-primary w-full"
+
+    .divider.mt-6.mb-2 или
+
+    = render "devise/shared/links"
