@@ -1,0 +1,10 @@
+%h1 Add City
+= form_with model: @city, local: true do |f|
+  - if @city.errors.any?
+    %ul
+      - @city.errors.full_messages.each do |m|
+        %li= m
+  .field
+    = f.label :name, "City name"
+    = f.text_field :name, placeholder: "Москва", autofocus: true
+  = f.submit "Create", class: "btn"

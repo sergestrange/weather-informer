@@ -5,15 +5,16 @@ source 'https://rubygems.org'
 ruby '3.3.4'
 
 # --- Core ---
+gem 'circuitbox', '~> 2.0'
+gem 'faraday', '~> 2.9'
+gem 'faraday-retry'
+gem 'geocoder'
+gem 'haml-rails'
 gem 'importmap-rails'
 gem 'pg'
 gem 'puma', '>= 5.0'
 gem 'rails', '~> 7.2'
 gem 'sprockets-rails'
-# TODO: remove
-# gem 'stimulus-rails'
-# gem 'turbo-rails'
-gem 'haml-rails'
 
 # --- Auth ---
 gem 'cancancan'

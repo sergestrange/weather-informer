@@ -1,0 +1,18 @@
+%h1= @city.name
+
+- if @weather
+  .weather-info
+    %p
+      %strong Temperature:
+      = "#{@weather[:temperature]} °C"
+
+    %p
+      %strong Wind speed:
+      = "#{@weather[:wind_speed]} m/s"
+
+    %p
+      %strong Observed at:
+      = l(@weather[:observed_at], format: :short)
+
+- else
+  %p No data available at the moment.
