@@ -6,12 +6,13 @@ module Weather
       BASE = 'https://api.open-meteo.com'
 
       def initialize(client: HttpClient.build(base_url: BASE))
+        super()
+
         @client = client
       end
 
       def forecast(lat:, lon:)
-        resp = @client.get('/v1/forecast',
-                           latitude: lat, longitude: lon, current: 'temperature_2m,wind_speed_10m')
+        resp = @client.get('/v1/forecast', latitude: lat, longitude: lon, current: 'temperature_2m,wind_speed_10m')
         body = JSON.parse(resp.body)
         current = body.fetch('current')
         {

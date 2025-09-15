@@ -20,14 +20,10 @@ module Weather
     # @param fallback [Weather::Provider, nil]
     #   Optional fallback provider used when the primary fails
     #   or its circuit is open.
-    #
-    # @param name [String]
-    #   Circuit breaker identifier (used as key in store).
-    #
-    def initialize(primary:, fallback: nil, name: 'weather_primary')
+    def initialize(primary:, fallback: nil)
       @primary  = primary
       @fallback = fallback
-      @circuit  = Circuitbox.circuit(name,
+      @circuit  = Circuitbox.circuit(primary.class.name,
                                      exceptions: [ProviderError, Faraday::Error],
                                      sleep_window: 30,
                                      volume_threshold: 4,
