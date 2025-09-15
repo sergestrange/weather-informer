@@ -4,19 +4,11 @@ class WeathersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_city
 
-  def current
-    authorize! :weather, @city
-    @weather = Weather::FetchCurrent.call(city: @city)
-  rescue Weather::ProviderError
-    flash.now[:alert] = 'Weather service unavailable. Please try again later.'
-    @weather = nil
-  end
-
   def daily
     authorize! :weather, @city
     @weather = Weather::FetchDaily7d.call(city: @city)
   rescue Weather::ProviderError
-    flash.now[:alert] = 'Weather service unavailable. Please try again later.'
+    flash.now[:alert] = I18n.t('weather.service_unavailable')
     @weather = nil
   end
 

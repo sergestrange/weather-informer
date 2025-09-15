@@ -6,6 +6,7 @@ module Weather
       BASE = 'https://api.open-meteo.com'
 
       def initialize(client: HttpClient.build(base_url: BASE))
+        super()
         @client = client
       end
 

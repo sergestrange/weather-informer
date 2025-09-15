@@ -6,3 +6,5 @@
   %p Observed at: #{@weather[:observed_at]}
 - else
   %p No data
+
+= render Map::YandexComponent.new(lat: @city.lat, lon: @city.lon, zoom: 12)

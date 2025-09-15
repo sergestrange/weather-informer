@@ -10,7 +10,7 @@ class CitiesController < ApplicationController
 
   def create
     if @city.update(city_params)
-      redirect_to cities_path, notice: 'City created'
+      redirect_to cities_path, notice: t('cities.flash.created')
     else
       render :new, status: :unprocessable_entity
     end

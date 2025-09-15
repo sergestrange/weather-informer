@@ -1,19 +1,26 @@
-%h2 7 days weather in #{@city.name}
+.card.bg-base-100.shadow-xl
+  .card-body
+    %h2.text-2xl.font-bold.mb-4= t('weather.daily.title', city: @city.name)
 
-- if @weather
-  %table
-    %thead
-      %tr
-        %th Date
-        %th Min. temperature
-        %th Max. temperature
-        %th Max. wind speed
-    %tbody
-      - @weather[:days].each do |day|
-        %tr
-          %td= day[:date]
-          %td= day[:t_min]
-          %td= day[:t_max]
-          %td= day[:wind_speed_max]
-- else
-  %p No data
+    - if @weather
+      .overflow-x-auto
+        %table.table.table-zebra
+          %thead
+            %tr
+              %th= t('weather.daily.date')
+              %th= t('weather.daily.t_min')
+              %th= t('weather.daily.t_max')
+              %th= t('weather.daily.wind')
+          %tbody
+            - @weather[:days].each do |day|
+              %tr
+                %td= l(day[:date].to_date, format: :long)
+                %td.text-blue-600= "#{day[:t_min]} °C"
+                %td.text-red-600= "#{day[:t_max]} °C"
+                %td= "#{day[:wind_speed_max]} м/с"
+    - else
+      .alert.alert-warning
+        %span= t('weather.daily.no_data')
+
+    .mt-6
+      = render Map::YandexComponent.new(lat: @city.lat, lon: @city.lon, zoom: 12)

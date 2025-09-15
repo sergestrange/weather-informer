@@ -3,6 +3,7 @@
 module Weather
   class FetchDaily7d < BaseOperation
     def initialize(city:)
+      super()
       @city = city
     end
 

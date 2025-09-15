@@ -3,6 +3,7 @@
 module Weather
   class FetchCurrent < BaseOperation
     def initialize(city:)
+      super()
       @city = city
     end
 

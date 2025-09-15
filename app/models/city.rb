@@ -21,6 +21,6 @@ class City < ApplicationRecord
   def geocoding_must_succeed
     return unless lat.blank? || lon.blank?
 
-    errors.add(:name, 'was not found on the map')
+    errors.add(:name, I18n.t('errors.messages.not_found_on_map'))
   end
 end
