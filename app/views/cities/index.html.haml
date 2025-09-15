@@ -13,4 +13,5 @@
       %tr
         %td= city.name
         %td= "#{city.lat}, #{city.lon}"
-        %td= link_to "Check weather", city_weather_path(city)
+        %td= link_to "Current", current_city_weather_path(city)
+        %td= link_to "7 days weather", daily_city_weather_path(city)

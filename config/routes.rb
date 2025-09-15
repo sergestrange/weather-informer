@@ -13,7 +13,10 @@ Rails.application.routes.draw do
   get 'manifest' => 'rails/pwa#manifest', as: :pwa_manifest
 
   resources :cities, only: %i[index new create] do
-    resource :weather, only: :show
+    resource :weather, only: [] do
+      get :current
+      get :daily
+    end
   end
 
   root 'cities#index'

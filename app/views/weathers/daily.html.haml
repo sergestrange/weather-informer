@@ -1,0 +1,19 @@
+%h2 7 days weather in #{@city.name}
+
+- if @weather
+  %table
+    %thead
+      %tr
+        %th Date
+        %th Min. temperature
+        %th Max. temperature
+        %th Max. wind speed
+    %tbody
+      - @weather[:days].each do |day|
+        %tr
+          %td= day[:date]
+          %td= day[:t_min]
+          %td= day[:t_max]
+          %td= day[:wind_speed_max]
+- else
+  %p No data

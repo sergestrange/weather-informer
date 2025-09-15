@@ -32,7 +32,7 @@ module Weather
     # @raise [NotImplementedError]
     #   if subclass does not override this method
     #
-    def forecast(lat:, lon:)
+    def forecast(lat:, lon:, type:)
       raise NotImplementedError
     end
   end

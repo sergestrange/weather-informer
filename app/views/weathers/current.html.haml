@@ -1,0 +1,8 @@
+%h2 Current weather in #{@city.name}
+
+- if @weather
+  %p Temperature: #{@weather[:temperature]} °C
+  %p Wind speed: #{@weather[:wind_speed]} м/с
+  %p Observed at: #{@weather[:observed_at]}
+- else
+  %p No data

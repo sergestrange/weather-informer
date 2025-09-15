@@ -6,23 +6,33 @@ module Weather
       BASE = 'https://api.open-meteo.com'
 
       def initialize(client: HttpClient.build(base_url: BASE))
-        super()
-
         @client = client
       end
 
-      def forecast(lat:, lon:)
-        resp = @client.get('/v1/forecast', latitude: lat, longitude: lon, current: 'temperature_2m,wind_speed_10m')
-        body = JSON.parse(resp.body)
-        current = body.fetch('current')
-        {
-          temperature: current['temperature_2m'],
-          wind_speed: current['wind_speed_10m'],
-          observed_at: Time.zone.parse(current['time']),
-          provider: 'open_meteo'
-        }
+      def fetch(type:, lat:, lon:)
+        strategy = strategies.fetch(type) { raise Provider::UnsupportedType, "Unsupported type: #{type}" }
+        raw = perform_request(path: strategy.path, params: strategy.params(lat:, lon:))
+        strategy.normalize(raw)
       rescue Faraday::Error, JSON::ParserError, KeyError => e
-        raise ProviderError, e.message
+        raise Weather::ProviderError, e.message
+      end
+
+      def capabilities = strategies.keys
+
+      private
+
+      attr_reader :client
+
+      def perform_request(path:, params:)
+        resp = client.get(path, params)
+        JSON.parse(resp.body)
+      end
+
+      def strategies
+        @strategies ||= {
+          current: OpenMeteo::Strategies::Current.new,
+          daily_7d: OpenMeteo::Strategies::Daily7d.new
+        }
       end
     end
   end
