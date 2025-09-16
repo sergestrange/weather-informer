@@ -37,8 +37,8 @@ jobs:
       - name: Install PNPM
         run: npm i -g pnpm
 
-      - name: Install & Build
-        run: pnpm i && pnpm build
+      - name: Install
+        run: pnpm i
 
       - name: Verify pnpm
         run: pnpm -v
