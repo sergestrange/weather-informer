@@ -29,19 +29,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node (with pnpm cache)
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
 
-      - name: Enable Corepack (pnpm)
-        run: corepack enable
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
-      - name: Install deps (pnpm)
+      - name: Install JS deps
         run: pnpm install --frozen-lockfile
 
-      - name: Audit JS dependencies (pnpm)
+      - name: Audit JS dependencies
         run: pnpm audit --audit-level high
 
   lint:
@@ -92,6 +94,23 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+
+      - name: Setup Node (with pnpm cache)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Enable Corepack (pnpm)
+        run: corepack enable
+
+      - name: Install JS deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Vite assets for test
+        env:
+          RAILS_ENV: test
+        run: bin/vite build --mode=test --clear
 
       - name: Prepare database
         env:
