@@ -33,18 +33,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
 
-      - name: Enable Corepack & activate pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@9 --activate
+      - name: Install PNPM
+        run: npm i -g pnpm
+
+      - name: Install & Build
+        run: pnpm i && pnpm build
 
       - name: Verify pnpm
         run: pnpm -v
-
-      - name: Install JS deps
-        run: pnpm install --frozen-lockfile
 
       - name: Audit JS dependencies
         run: pnpm audit --audit-level high
