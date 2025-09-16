@@ -30,6 +30,7 @@ cd weather-informer-rails
 
 bundle install
 bin/rails db:setup
+rake db:seed
 ```
 
 ## Архитектура
