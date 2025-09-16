@@ -14,6 +14,7 @@ Simple weather informer service with two roles (**admin** and **viewer**), user 
 - Redis caching for forecasts (15 minutes)
 - RSpec test suite with FactoryBot, Shoulda
 - Docker Compose support (web, db, redis)
+- Procfile support (Foreman/Overmind)
 
 ## Setup
 
