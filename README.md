@@ -24,6 +24,8 @@
 - PostgreSQL 16+
 - Docker (optional)
 
+### Запуск вручную
+
 ```bash
 git clone https://github.com/sergestrange/weather-informer-rails.git
 cd weather-informer-rails
@@ -31,9 +33,15 @@ cd weather-informer-rails
 bundle install
 bin/rails db:setup
 rake db:seed
+foreman start -f Procfile.dev
+```
+### Docker
+
+```bash
+docker build -t weather-informer .
 ```
 
-## Архитектура
+## Архитектура и особенности реализации
 
 ### Weather Service Layer
 
@@ -56,6 +64,9 @@ forecast = Weather::FetchDaily.call(city: city, days: 7)
 #   provider: "open_meteo"
 # }
 ```
+### Yandex карты для геопозиции
+
+Использован `Stimulus` для упорядочивования в коде JS компонентов, с его помощью, а также `ViewComponent`, добавлен просмотрщик текущего местоположения по координатам города. Можно изменить на условно бесплатный `Leaflet`.
 
 ## Roadmap
 
