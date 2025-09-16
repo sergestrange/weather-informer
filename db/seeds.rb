@@ -1,29 +1,22 @@
 # frozen_string_literal: true
 
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+logger = Rails.logger || ActiveSupport::Logger.new($stdout)
 
-puts "Seeding users..."
+logger.info 'Seeding users…'
 
-admin = User.find_or_create_by!(email: "admin@example.com") do |u|
-  u.password = "password"
-  u.password_confirmation = "password"
-  u.role = :admin
+User.find_or_create_by!(email: 'admin@example.com') do |u|
+  u.password = 'password123'
+  u.role = 'admin'
 end
 
-viewer = User.find_or_create_by!(email: "viewer@example.com") do |u|
-  u.password = "password"
-  u.password_confirmation = "password"
-  u.role = :viewer
+User.find_or_create_by!(email: 'user@example.com') do |u|
+  u.password = 'password123'
+  u.role = 'viewer'
 end
 
-puts "Seed complete:"
-puts "Admin  -> email: #{admin.email}, password: password"
-puts "Viewer -> email: #{viewer.email}, password: password"
+logger.info 'Seeding cities…'
+
+City.find_or_create_by!(name: 'Moscow', lat: 55.7558, lon: 37.6173)
+City.find_or_create_by!(name: 'Amsterdam', lat: 52.3676, lon: 4.9041)
+
+logger.info 'Seeding done.'
