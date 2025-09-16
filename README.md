@@ -1,31 +1,28 @@
 # Weather Informer (Rails 7.2)
 
-Simple weather informer service with two roles (**admin** and **viewer**), user authentication, city management, and weather forecasts.
+Простое сервис-приложение для информирования о погоде с двумя ролями (**администратор** и **пользователь**), аутентификацией, управлением городами и прогнозами погоды.
 
-## Features
+## Возможности
 
 - Ruby 3.3.4 / Rails 7.2
-- PostgreSQL database
-- Devise authentication
-- Role-based authorization via CanCanCan
-    - **Admin**: can create/manage cities
-    - **Viewer**: can view cities and check weather
-- Weather API integration
-- Redis caching for forecasts (15 minutes)
-- RSpec test suite with FactoryBot, Shoulda
-- Docker Compose support (web, db, redis)
-- Procfile support (Foreman/Overmind)
+- База данных PostgreSQL
+- Аутентификация через Devise
+- Ролевая авторизация с CanCanCan
+    - **Администратор**: может создавать и управлять городами
+    - **Пользователь**: может просматривать города и смотреть прогноз погоды
+- Интеграция с API погоды
+- Кэширование прогнозов
+- Тестовый набор на RSpec с FactoryBot и Shoulda
+- Поддержка Docker Compose (web, db)
+- Поддержка Procfile (Foreman/Overmind)
 
-## Setup
+## Установка
 
-### Requirements
+### Требования
 
 - Ruby 3.3.4
 - PostgreSQL 16+
-- Redis 7+
 - Docker (optional)
-
-### Installation
 
 ```bash
 git clone https://github.com/sergestrange/weather-informer-rails.git
@@ -33,3 +30,36 @@ cd weather-informer-rails
 
 bundle install
 bin/rails db:setup
+```
+
+## Архитектура
+
+### Weather Service Layer
+
+Приложение использует абстракцию `Weather` для работы с разными провайдерами прогноза погоды.  
+Основная точка входа — сервисы:
+
+- `Weather::FetchDaily` — получает прогноз на N дней (шаг 24 часа) следуя либо в API, либо в кэш.
+
+#### Пример использования
+
+```ruby
+city = City.find(1)
+forecast = Weather::FetchDaily.call(city: city, days: 7)
+# => {
+#   type: "daily",
+#   days: [
+#     { date: Date.today, t_min: 12.0, t_max: 19.0, wind_speed_max: 3.1, provider: "open_meteo" },
+#     ...
+#   ],
+#   provider: "open_meteo"
+# }
+```
+
+## Roadmap
+
+- Для большей стабильности подключения по API, можно воспользоваться заложенным механизмом с Circuitbox для обработки в случае fallback, и добавить вспомогательный Provider, например Gismeteo.
+- Реализовать возможность просмотра прогноза на сегодняшний день, на месяц вперед и расширить количество получаемых данных от API.
+- Сделать панель администратора с редактирование прав доступа.
+- Добавить элементы перехода по страницам в UI, а также выход из профиля.
+- Скорректировать UI, добавить стили, иконки и пр.

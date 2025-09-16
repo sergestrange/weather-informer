@@ -9,6 +9,20 @@ module Weather
       @days = Integer(days).clamp(1, 16)
     end
 
+    ##
+    # Выполняет запрос прогноза погоды для указанного города.
+    # Данные кешируются в Redis на время, заданное методом `ttl`.
+    #
+    # @return [Hash] Хэш с прогнозом погоды в формате:
+    #   {
+    #     type: "daily",
+    #     days: [
+    #       { date: Date, t_min: Float, t_max: Float, wind_speed_max: Float, provider: String },
+    #       ...
+    #     ],
+    #     provider: String
+    #   }
+    #
     def call
       key = cache_key(%w[weather daily] + [@city.cache_key_with_version, @days])
 

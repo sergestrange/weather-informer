@@ -7,7 +7,6 @@ module Weather
         def key = name.demodulize.underscore
       end
 
-      # Единственный обязательный метод
       def daily(lat:, lon:, days: 7)
         raise NotImplementedError
       end
