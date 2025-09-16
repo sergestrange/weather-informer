@@ -14,7 +14,6 @@ Rails.application.routes.draw do
 
   resources :cities, only: %i[index new create] do
     resource :weather, only: [] do
-      get :current
       get :daily
     end
   end

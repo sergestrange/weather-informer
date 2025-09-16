@@ -6,7 +6,7 @@ class WeathersController < ApplicationController
 
   def daily
     authorize! :weather, @city
-    @weather = Weather::FetchDaily7d.call(city: @city)
+    @weather = Weather::FetchDaily.call(city: @city, days: 7)
   rescue Weather::ProviderError
     flash.now[:alert] = I18n.t('weather.service_unavailable')
     @weather = nil

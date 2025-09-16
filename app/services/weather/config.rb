@@ -4,8 +4,9 @@ module Weather
   module Config
     class << self
       def aggregator
-        primary = Weather::Providers::OpenMeteo.new
-        Weather::Aggregator.new(primary:)
+        provider = Weather::Providers::OpenMeteo.new
+
+        Weather::Aggregator.new(provider:)
       end
 
       delegate :cache, to: :Rails

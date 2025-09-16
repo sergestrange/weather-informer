@@ -2,30 +2,20 @@
 
 module Weather
   class Aggregator
-    def initialize(primary:, fallback: nil)
-      @primary  = primary
-      @fallback = fallback
+    def initialize(provider: Weather::Providers::OpenMeteo.new)
+      @provider = provider
     end
 
-    def forecast(lat:, lon:, type: :current)
-      run_with_circuit(@primary, type) { @primary.fetch(type:, lat:, lon:) }
-    rescue Weather::ProviderError, Faraday::Error
-      raise unless @fallback.pretty_print
-
-      run_with_circuit(@fallback, type) { @fallback.fetch(type:, lat:, lon:) }
+    def daily(lat:, lon:, days: 7)
+      safe(@provider) { @provider.daily(lat:, lon:, days:) }
     end
 
     private
 
-    def run_with_circuit(provider, type, &)
-      name = "#{provider.class.name}/#{type}"
-      Circuitbox.circuit(
-        name,
-        exceptions: [Weather::ProviderError, Faraday::Error],
-        sleep_window: 30,
-        volume_threshold: 4,
-        time_window: 60
-      ).run(&)
+    def safe(provider, &)
+      Weather::SafeCall
+        .new(circuit: CIRCUITS.fetch(provider.class.key.to_sym))
+        .call(&)
     end
   end
 end
