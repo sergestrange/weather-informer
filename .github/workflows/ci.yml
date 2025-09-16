@@ -99,13 +99,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
 
-      - name: Enable Corepack (pnpm)
-        run: corepack enable
+      - name: Install PNPM
+        run: npm i -g pnpm
 
-      - name: Install JS deps
-        run: pnpm install --frozen-lockfile
+      - name: Install
+        run: pnpm i
+
+      - name: Verify pnpm
+        run: pnpm -v
 
       - name: Build Vite assets for test
         env:
