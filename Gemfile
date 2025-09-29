@@ -6,7 +6,7 @@ ruby '3.3.4'
 
 # --- Core ---
 gem 'circuitbox', '~> 2.0'
-gem 'faraday', '~> 2.9'
+gem 'faraday', '~> 2.14'
 gem 'faraday-retry'
 gem 'geocoder'
 gem 'haml-rails'
