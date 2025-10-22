@@ -45,7 +45,7 @@ group :development, :test do
   gem 'webmock'
 
   gem 'brakeman', require: false
-  gem 'rubocop', '~> 1.64', require: false
+  gem 'rubocop', '~> 1.81', require: false
   gem 'rubocop-factory_bot', '~> 2.26', require: false
   gem 'rubocop-performance', '~> 1.21', require: false
   gem 'rubocop-rails', '~> 2.25', require: false
